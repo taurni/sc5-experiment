@@ -1,0 +1,13 @@
+
+// Helpers
+//
+// This file contains helper definitions that should only be used within the
+// styleguide.
+
+.sg-wrapper {
+  .styleguide-placeholder {
+    background-color: #eee;
+    color: $eg-color-black;
+    padding: $eg-spacings;
+  }
+}
