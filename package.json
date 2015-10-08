@@ -14,5 +14,9 @@
   "author": "SC5",
   "bugs": {
     "url": "https://github.com/SC5/sc5-styleguide-tutorial/issues"
+  },
+  "devDependencies": {
+    "gulp-compile-handlebars": "^0.5.0",
+    "gulp-rename": "^1.2.2"
   }
 }

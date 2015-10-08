@@ -4,6 +4,8 @@
 var gulp = require('gulp'); 
 var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
+var handlebars = require('gulp-compile-handlebars');
+var rename = require('gulp-rename');
 
 // Path definitions
 
@@ -21,6 +23,32 @@ var styleguideBuildPath = buildPath + styleguideAppRoot;
 
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
+
+
+// Handlebars
+gulp.task('demo', function () {
+    var templateData = {
+            firstName: 'Kaanon'
+        },
+        options = {
+            ignorePartials: true, //ignores the unknown footer2 partial in the handlebars template, defaults to false
+            partials : {
+                footer : '<footer>the end</footer>'
+            },
+            batch : ['./src/partials'],
+            helpers : {
+                capitals : function(str){
+                    return str.toUpperCase();
+                }
+            }
+        }
+
+    return gulp.src('src/hello.handlebars')
+        .pipe(handlebars(templateData, options))
+        .pipe(rename('hello.html'))
+        .pipe(gulp.dest('DEMO'));
+});
+
 
 // Building the application
 //
@@ -86,7 +114,7 @@ gulp.task('styleguide:generate', function() {
         server: true,
         rootPath: styleguideTmpPath,
         overviewPath: overviewPath
-      }))
+     }))
     .pipe(gulp.dest(styleguideTmpPath));
 });
 
@@ -123,4 +151,11 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
         'Run gulp with "gulp dev" for developer mode and style guide!\n'
     );
 });
+
+// GULP ADDITIONAL TASKS
+// - create component directory
+// - create files into component directory
+/*gulp.task('mytask',function(){
+    console.log('hallo world : ');
+});*/
 

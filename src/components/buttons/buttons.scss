@@ -1,0 +1,41 @@
+// Buttons
+//
+// A majority of buttons in the site are built from the same base class.
+//
+// Markup: buttons.hbs
+//
+// .button--primary   - Use this class to indicate that the button is the primary
+//              feature of this form.
+// .button--remove    - Use this class to indicate that the button will remove a
+//              feature, or other negative connotations.
+// :hover     - Highlight the button when hovered.
+// :disabled  - Make the button change appearance to reflect it being disabled.
+// :active    - "Press" the button down when clicked.
+//
+// Styleguide 1.2
+
+ .button{
+   background-color: lightgoldenrodyellow ;
+   &:hover {
+    border: 1px solid red;
+   }
+   &:disabled{
+    opacity: 0.5;
+   }
+   &:active {
+     border: 1px solid green;
+   }
+
+   &.button--primary {
+     background-color: red;
+   }
+
+   &.button--remove {
+    background-color: green;
+   }
+
+   &.button--active {
+    background-color: blue;
+   }
+
+ }
