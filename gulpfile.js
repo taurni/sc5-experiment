@@ -5,7 +5,8 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
 var handlebars = require('gulp-compile-handlebars');
-var rename = require('gulp-rename');
+//var rename = require('gulp-rename');
+var rename = require('./node_modules/sc5-styleguide/node_modules/gulp-rename');
 var sq = require('gulp-sequence');
 var del = require('del');
 
@@ -169,4 +170,6 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
         'Run gulp with "gulp dev" for developer mode and style guide!\n'
     );
 });
+
+// Helpers
 
