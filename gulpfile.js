@@ -35,7 +35,7 @@ gulp.task('demo', function () {
             partials : {
                 footer : '<footer>the end</footer>'
             },
-            batch : ['./src/partials'],
+            batch : ['./src'], //partials
             helpers : {
                 capitals : function(str){
                     return str.toUpperCase();
@@ -43,9 +43,9 @@ gulp.task('demo', function () {
             }
         }
 
-    return gulp.src('src/hello.handlebars')
+    return gulp.src('src/**/*.hbs')
         .pipe(handlebars(templateData, options))
-        .pipe(rename('hello.html'))
+        .pipe(rename({extname: ".html"}))
         .pipe(gulp.dest('DEMO'));
 });
 
