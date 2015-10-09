@@ -6,6 +6,7 @@ var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
 var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
+var gulpSequence = require('gulp-sequence');
 
 // Path definitions
 
@@ -25,7 +26,6 @@ var styleguideBuildPath = buildPath + styleguideAppRoot;
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
 
-
 // Handlebars
 gulp.task('handlebars', function () {
     var templateData = {
@@ -36,13 +36,13 @@ gulp.task('handlebars', function () {
             partials : {
                 footer : '<footer>the end</footer>'
             },
-            batch : ['./src'], //partials
+            batch : ['./'+sourcePath], //partials
             helpers : {
                 capitals : function(str){
                     return str.toUpperCase();
                 }
             }
-        }
+        };
     console.log('***********1HANDLEBARS************');
     return gulp.src(hbsWild)
         .pipe(handlebars(templateData, options))
@@ -58,17 +58,15 @@ gulp.task('handlebars', function () {
 // that the markup needs to be written into the app. There is no magic
 // that would bring the markup for a page into the app from the pages
 // section in the styleguide.
+
+//gulp.task( 'demotest', gulpSequence('html','styleguide') );
+
+// TODO: callback styleguide task
 gulp.task('html', ['handlebars'], function(cb) {
-    gulp.src(htmlWild)
-        .pipe(gulp.dest(buildPath));
-    cb(gulp.trigger('styleguide'));
-    console.log('***********2HTML************');
-});
-/*gulp.task('html', ['handlebars'], function() {
     console.log('***********2HTML************');
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
-});*/
+});
 gulp.task('scss', function() {
     return gulp.src(scssRoot)
         .pipe(sass())
@@ -137,7 +135,8 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 // Developer mode
 
 gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
-    gulp.watch(hbsWild, ['html']);
+    gulp.watch(hbsWild, ['html', 'styleguide']);
+    //gulp.watch(hbsWild, ['html']);
     //gulp.watch(htmlWild, ['html']);
     gulp.watch(scssWild, ['scss', 'styleguide']);
     console.log(
