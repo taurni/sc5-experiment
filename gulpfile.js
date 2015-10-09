@@ -43,7 +43,7 @@ gulp.task('handlebars', function () {
                 }
             }
         }
-
+    console.log('***********1HANDLEBARS************');
     return gulp.src(hbsWild)
         .pipe(handlebars(templateData, options))
         .pipe(rename({extname: ".html"}))
@@ -58,12 +58,17 @@ gulp.task('handlebars', function () {
 // that the markup needs to be written into the app. There is no magic
 // that would bring the markup for a page into the app from the pages
 // section in the styleguide.
-
-gulp.task('html', ['handlebars'], function() {
+gulp.task('html', ['handlebars'], function(cb) {
+    gulp.src(htmlWild)
+        .pipe(gulp.dest(buildPath));
+    cb(gulp.trigger('styleguide'));
+    console.log('***********2HTML************');
+});
+/*gulp.task('html', ['handlebars'], function() {
+    console.log('***********2HTML************');
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
-});
-
+});*/
 gulp.task('scss', function() {
     return gulp.src(scssRoot)
         .pipe(sass())
@@ -133,7 +138,7 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 
 gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
     gulp.watch(hbsWild, ['html']);
-    gulp.watch(htmlWild, ['html']);
+    //gulp.watch(htmlWild, ['html']);
     gulp.watch(scssWild, ['scss', 'styleguide']);
     console.log(
         '\nDeveloper mode!\n\nSC5 Styleguide available at http://localhost:3000/\n'
