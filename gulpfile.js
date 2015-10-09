@@ -11,6 +11,7 @@ var rename = require('gulp-rename');
 
 var sourcePath = 'src';
 var htmlWild = sourcePath + '/**/*.html';
+var hbsWild = sourcePath + '/**/*.hbs';
 var styleSourcePath = sourcePath + '';
 var scssWild = styleSourcePath + '/**/*.scss';
 var scssRoot = styleSourcePath + '/components/main.scss';
@@ -26,7 +27,7 @@ var styleguideTmpPath = tmpPath + '/styleguide';
 
 
 // Handlebars
-gulp.task('demo', function () {
+gulp.task('handlebars', function () {
     var templateData = {
             firstName: 'Kaanon'
         },
@@ -43,12 +44,11 @@ gulp.task('demo', function () {
             }
         }
 
-    return gulp.src('src/**/*.hbs')
+    return gulp.src(hbsWild)
         .pipe(handlebars(templateData, options))
         .pipe(rename({extname: ".html"}))
-        .pipe(gulp.dest('DEMO'));
+        .pipe(gulp.dest('src'));
 });
-
 
 // Building the application
 //
@@ -59,7 +59,7 @@ gulp.task('demo', function () {
 // that would bring the markup for a page into the app from the pages
 // section in the styleguide.
 
-gulp.task('html', function() {
+gulp.task('html', ['handlebars'], function() {
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
 });
@@ -132,6 +132,7 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 // Developer mode
 
 gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
+    gulp.watch(hbsWild, ['html']);
     gulp.watch(htmlWild, ['html']);
     gulp.watch(scssWild, ['scss', 'styleguide']);
     console.log(
@@ -151,11 +152,3 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
         'Run gulp with "gulp dev" for developer mode and style guide!\n'
     );
 });
-
-// GULP ADDITIONAL TASKS
-// - create component directory
-// - create files into component directory
-/*gulp.task('mytask',function(){
-    console.log('hallo world : ');
-});*/
-

@@ -1,8 +1,8 @@
 // Buttons
 //
-// A majority of buttons in the site are built from the same base class.
+// A majority of buttons in the site are built from the same base class. Blaaaah!
 //
-// Markup: buttons.hbs
+// Markup: buttons.html
 //
 // .button--primary   - Use this class to indicate that the button is the primary
 //              feature of this form.
@@ -17,7 +17,7 @@
  .button{
    background-color: lightgoldenrodyellow ;
    &:hover {
-    border: 1px solid red;
+    border: 5px solid green;
    }
    &:disabled{
     opacity: 0.5;
@@ -27,7 +27,7 @@
    }
 
    &.button--primary {
-     background-color: red;
+     background-color: gold;
    }
 
    &.button--remove {
