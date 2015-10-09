@@ -1,11 +1,13 @@
 
 // Imports
 
-var gulp = require('gulp'); 
+var gulp = require('gulp');
 var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
 var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
+var sq = require('gulp-sequence');
+var del = require('del');
 
 // Path definitions
 
@@ -25,9 +27,13 @@ var styleguideBuildPath = buildPath + styleguideAppRoot;
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
 
+// Dealates all html files in src/**/
+gulp.task('deleate:html',function(){
+    return del([htmlWild]);
+});
 
 // Handlebars
-gulp.task('handlebars', function () {
+gulp.task('handlebars',['deleate:html'], function () {
     var templateData = {
             firstName: 'Kaanon'
         },
@@ -49,6 +55,11 @@ gulp.task('handlebars', function () {
         .pipe(rename({extname: ".html"}))
         .pipe(gulp.dest('src'));
 });
+
+gulp.task('sequence', function(callback){
+    sq( 'html', 'styleguide')(callback)
+});
+
 
 // Building the application
 //
@@ -109,7 +120,8 @@ gulp.task('staticStyleguide', ['staticStyleguide:generate', 'staticStyleguide:ap
 
 gulp.task('styleguide:generate', function() {
   return gulp.src(scssWild)
-    .pipe(styleguide.generate({
+    .pipe(
+      styleguide.generate({
         title: 'My First Development Styleguide',
         server: true,
         rootPath: styleguideTmpPath,
@@ -123,7 +135,8 @@ gulp.task('styleguide:applystyles', function() {
     .pipe(sass({
       errLogToConsole: true
     }))
-    .pipe(styleguide.applyStyles())
+    .pipe(
+      styleguide.applyStyles())
     .pipe(gulp.dest(styleguideTmpPath));
 });
 
@@ -132,8 +145,8 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 // Developer mode
 
 gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
-    gulp.watch(hbsWild, ['html']);
-    gulp.watch(htmlWild, ['html']);
+    gulp.watch(hbsWild, ['sequence']);
+   // gulp.watch(htmlWild, ['html']);
     gulp.watch(scssWild, ['scss', 'styleguide']);
     console.log(
         '\nDeveloper mode!\n\nSC5 Styleguide available at http://localhost:3000/\n'
@@ -152,3 +165,4 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
         'Run gulp with "gulp dev" for developer mode and style guide!\n'
     );
 });
+
