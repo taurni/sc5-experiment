@@ -81,7 +81,7 @@ gulp.task('sequence', function(callback){
 //gulp.task( 'demotest', gulpSequence('html','styleguide') );
 
 // TODO: callback styleguide task
-gulp.task('html', ['handlebars'], function(cb) {
+gulp.task('html', ['handlebars'], function() {
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
 });
