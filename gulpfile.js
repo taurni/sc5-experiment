@@ -46,9 +46,17 @@ gulp.task('handlebars',['deleate:html'], function () {
             helpers : {
                 capitals : function(str){
                     return str.toUpperCase();
+                },
+                default : function(param, defaultValue){
+                    //helper for adding param with default value
+                    if(typeof param === 'undefined'){
+                        return defaultValue
+                    }else{
+                        return param
+                    }
                 }
             }
-        }
+        };
 
     return gulp.src(hbsWild)
         .pipe(handlebars(templateData, options))
