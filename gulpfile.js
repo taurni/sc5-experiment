@@ -8,6 +8,7 @@ var handlebars = require('gulp-compile-handlebars');
 var rename = require('gulp-rename');
 var sq = require('gulp-sequence');
 var del = require('del');
+var concat = require('gulp-concat');
 
 // Path definitions
 
@@ -24,8 +25,12 @@ var styleBuildPath = buildPath + '/styles';
 var styleguideAppRoot = '/styleguide';
 var styleguideBuildPath = buildPath + styleguideAppRoot;
 
+var jsWild = sourcePath + '/components/**/*.js';
+
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
+
+var projectName = 'Telekom Styleguide';
 
 // Dealates all html files in src/**/
 gulp.task('deleate:html',function(){
@@ -67,7 +72,15 @@ gulp.task('handlebars',['deleate:html'], function () {
 gulp.task('sequence', function(callback){
     sq( 'html', 'styleguide')(callback)
 });
-
+gulp.task('sequenceScripts', function(callback){
+    sq( 'scripts', 'styleguide')(callback)
+});
+// Concat all components javascript
+gulp.task('scripts', function() {
+    return gulp.src('./src/components/**/*.js')
+        .pipe(concat('app.js'))
+        .pipe(gulp.dest(styleguideTmpPath + '/assets/js/'));
+});
 
 // Building the application
 //
@@ -103,14 +116,10 @@ gulp.task('scss', function() {
 gulp.task('staticStyleguide:generate', function() {
   return gulp.src(scssWild)
     .pipe(styleguide.generate({
-        title: 'My First Hosted Styleguide',
+        title: projectName,
         rootPath: styleguideBuildPath,
         appRoot: styleguideAppRoot,
-        overviewPath: overviewPath,
-        extraHead: [
-              '<script src="/buttons.js"></script>'
-        ],
-        disableEncapsulation: true
+        overviewPath: overviewPath
       }))
     .pipe(gulp.dest(styleguideBuildPath));
 });
@@ -136,10 +145,16 @@ gulp.task('styleguide:generate', function() {
   return gulp.src(scssWild)
     .pipe(
       styleguide.generate({
-        title: 'My First Development Styleguide',
+        title: projectName,
         server: true,
         rootPath: styleguideTmpPath,
-        overviewPath: overviewPath
+        overviewPath: overviewPath,
+          extraHead: [
+              '<script src="http://yandex.st/jquery/1.7.2/jquery.min.js"></script>',
+              '<script src="/assets/js/app.js"></script>'
+          ],
+          disableEncapsulation: true
+
      }))
     .pipe(gulp.dest(styleguideTmpPath));
 });
@@ -159,6 +174,7 @@ gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 // Developer mode
 
 gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
+    gulp.watch(jsWild, ['sequenceScripts']);
     gulp.watch(hbsWild, ['sequence']);
    // gulp.watch(htmlWild, ['html']);
     gulp.watch(scssWild, ['scss', 'styleguide']);
