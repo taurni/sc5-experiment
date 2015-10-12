@@ -106,7 +106,11 @@ gulp.task('staticStyleguide:generate', function() {
         title: 'My First Hosted Styleguide',
         rootPath: styleguideBuildPath,
         appRoot: styleguideAppRoot,
-        overviewPath: overviewPath
+        overviewPath: overviewPath,
+        extraHead: [
+              '<script src="/buttons.js"></script>'
+        ],
+        disableEncapsulation: true
       }))
     .pipe(gulp.dest(styleguideBuildPath));
 });
