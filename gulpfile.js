@@ -5,7 +5,6 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
 var handlebars = require('gulp-compile-handlebars');
-//var rename = require('gulp-rename');
 var rename = require('gulp-rename');
 var sq = require('gulp-sequence');
 var del = require('del');
@@ -28,7 +27,6 @@ var styleguideBuildPath = buildPath + styleguideAppRoot;
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
 
-
 // Dealates all html files in src/**/
 gulp.task('deleate:html',function(){
     return del([htmlWild]);
@@ -48,10 +46,18 @@ gulp.task('handlebars',['deleate:html'], function () {
             helpers : {
                 capitals : function(str){
                     return str.toUpperCase();
+                },
+                default : function(param, defaultValue){
+                    //helper for adding param with default value
+                    if(typeof param === 'undefined'){
+                        return defaultValue
+                    }else{
+                        return param
+                    }
                 }
             }
         };
-    console.log('***********1HANDLEBARS************');
+
     return gulp.src(hbsWild)
         .pipe(handlebars(templateData, options))
         .pipe(rename({extname: ".html"}))
@@ -76,7 +82,6 @@ gulp.task('sequence', function(callback){
 
 // TODO: callback styleguide task
 gulp.task('html', ['handlebars'], function(cb) {
-    console.log('***********2HTML************');
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
 });
