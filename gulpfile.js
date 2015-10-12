@@ -42,7 +42,7 @@ gulp.task('handlebars',['deleate:html'], function () {
             partials : {
                 footer : '<footer>the end</footer>'
             },
-            batch : ['./src'], //partials
+            batch : ['./'+sourcePath], //partials
             helpers : {
                 capitals : function(str){
                     return str.toUpperCase();
@@ -78,11 +78,13 @@ gulp.task('sequence', function(callback){
 // that would bring the markup for a page into the app from the pages
 // section in the styleguide.
 
-gulp.task('html', ['handlebars'], function() {
+//gulp.task( 'demotest', gulpSequence('html','styleguide') );
+
+// TODO: callback styleguide task
+gulp.task('html', ['handlebars'], function(cb) {
     return gulp.src(htmlWild)
         .pipe(gulp.dest(buildPath));
 });
-
 gulp.task('scss', function() {
     return gulp.src(scssRoot)
         .pipe(sass())
@@ -173,4 +175,6 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
         'Run gulp with "gulp dev" for developer mode and style guide!\n'
     );
 });
+
+// Helpers
 

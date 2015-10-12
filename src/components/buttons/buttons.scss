@@ -1,6 +1,6 @@
 // Buttons
 //
-// A majority of buttons in the site are built from the same base class. Blaaaah!
+// A majority of buttons in the site are built from the same base class. Reload
 //
 // Markup: buttons.html
 //
@@ -15,7 +15,8 @@
 // Styleguide 1.2
 
  .button{
-   background-color: lightgoldenrodyellow ;
+   background-color: deepskyblue;
+   color: white;
    &:hover {
     border: 5px solid green;
    }
