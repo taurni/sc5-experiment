@@ -6,7 +6,7 @@ var sass = require('gulp-sass');
 var styleguide = require('sc5-styleguide');
 var handlebars = require('gulp-compile-handlebars');
 //var rename = require('gulp-rename');
-var rename = require('./node_modules/sc5-styleguide/node_modules/gulp-rename');
+var rename = require('gulp-rename');
 var sq = require('gulp-sequence');
 var del = require('del');
 
