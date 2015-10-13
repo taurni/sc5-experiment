@@ -15,7 +15,6 @@
     btn.click(function(e) {
       console.log('hallo button from buttons.js file');
       e.preventDefault();
-      var test =  'test';
     });
   }
 
