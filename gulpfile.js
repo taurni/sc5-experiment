@@ -172,8 +172,7 @@ gulp.task('styleguide:applystyles', function() {
 gulp.task('styleguide', ['styleguide:generate', 'styleguide:applystyles']);
 
 // Developer mode
-
-gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
+gulp.task('dev', ['html', 'scripts', 'scss', 'styleguide'], function() {
     gulp.watch(jsWild, ['sequenceScripts']);
     gulp.watch(hbsWild, ['sequence']);
    // gulp.watch(htmlWild, ['html']);
@@ -184,7 +183,6 @@ gulp.task('dev', ['html', 'scss', 'styleguide'], function() {
 });
 
 // The basic build task
-
 gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
     console.log(
         '\nBuild complete!\n\nFresh build available in directory: ' +
@@ -197,4 +195,3 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
 });
 
 // Helpers
-
