@@ -25,7 +25,7 @@ var styleBuildPath = buildPath + '/styles';
 var styleguideAppRoot = '/styleguide';
 var styleguideBuildPath = buildPath + styleguideAppRoot;
 
-var jsWild = sourcePath + '/components/**/*.js';
+var jsWild = sourcePath + '/**/*.js';
 
 var tmpPath = 'tmp';
 var styleguideTmpPath = tmpPath + '/styleguide';
@@ -73,7 +73,7 @@ gulp.task('sequence', function(callback){
     sq( 'html', 'styleguide')(callback)
 });
 gulp.task('sequenceScripts', function(callback){
-    sq( 'scripts', 'styleguide')(callback)
+    sq( 'jsLint','scripts', 'styleguide')(callback)
 });
 // Concat all components javascript
 gulp.task('scripts', function() {
@@ -194,4 +194,25 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
     );
 });
 
-// Helpers
+
+var jscs = require('gulp-jscs');
+
+// check JSCS
+gulp.task('jsLint:check',function(){
+    return gulp.src(jsWild)
+        .pipe(jscs())
+        .pipe(jscs.reporter());
+});
+
+gulp.task('jsLint',function(){
+    console.log("LINTING");
+    return gulp.src(jsWild)
+        .pipe(jscs({fix: true}))
+        .pipe(jscs.reporter())
+        .pipe(jscs.reporter('fail'))
+        .pipe(gulp.dest(sourcePath));
+});
+
+
+//git integration
+gulp.task('pre-commit', ['jsLint:check']);
