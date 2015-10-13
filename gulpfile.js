@@ -9,6 +9,7 @@ var rename = require('gulp-rename');
 var sq = require('gulp-sequence');
 var del = require('del');
 var concat = require('gulp-concat');
+var jscs = require('gulp-jscs');
 
 // Path definitions
 
@@ -195,7 +196,7 @@ gulp.task('default', ['html', 'scss', 'staticStyleguide'], function() {
 });
 
 
-var jscs = require('gulp-jscs');
+
 
 // check JSCS
 gulp.task('jsLint:check',function(){
@@ -204,17 +205,12 @@ gulp.task('jsLint:check',function(){
         .pipe(jscs.reporter());
 });
 
+//check and fix
 gulp.task('jsLint',function(){
-    console.log("LINTING");
+
     return gulp.src(jsWild)
         .pipe(jscs({fix: true}))
         .pipe(jscs.reporter())
         .pipe(jscs.reporter('fail'))
         .pipe(gulp.dest(sourcePath));
-});
-
-
-//git integration
-gulp.task('pre-commit', ['jsLint:check'],function(){
-    console.assert("*************** PRE COMMIT *****************");
 });

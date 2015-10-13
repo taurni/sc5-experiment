@@ -17,7 +17,6 @@
   },
   "devDependencies": {
     "del": "^2.0.2",
-    "git-guppy": "^1.0.0",
     "gulp": "^3.9.0",
     "gulp-compile-handlebars": "^0.5.0",
     "gulp-concat": "^2.6.0",

@@ -15,11 +15,24 @@ pohi arendus kaib src kataloogis.
 
 Arendame sassis ja kasutame BEM lahenemist
 
-#Komponendi arendus
+Komponendi arendus
+------------------
 
 * Komponetides on kasutusel handelbars template süsteem.
 * Vaikimise väärtsi parameetritele saab anda kasutades **default** abilist <code ng-non-bindable>{{default parameetriNimi "vaikimise väärtus"}}</code>
 * Komponendi kasutamine teiste "tükkide" - komponentide/template'ide/vaadete sees on võimalik handelbarsi **includega** <code ng-non-bindable>{{> components/buttons/buttons displayText="Uus väertus siia"}}</code>
+
+JSSC
+----
+JavaScripti syntaksi kontroll.
+Kasutab google seadeid.
+
+Kontrollimisek: **gulp jsLint:check**
+
+arenduses (gulp dev) on src/ kaustal js watch mis kontrollib jooksvalt süntaksit ja parandab vead.
+**NB!** Ilmselt peab sellest loobuma kui hakkab segama.
+
+
 
 
 When you are creating an actual styleguide your team needs to agree on the semantics (naming, structure, coding style) of how you will contruct your project. Different ways may suit different projects and teams. Whatever your preferences and decisions are, we recommend that you document your approach in the overview chapter (this one) of your style guide so everyone in the team has a shared opinion on how the markup and styles are constructed in the project.

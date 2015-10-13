@@ -19,11 +19,4 @@
     });
   }
 
-    function foo(test){
-      test = true;
-    }
-
-  function test(fds){
-    return 0;
-  }
 })();
