@@ -215,4 +215,6 @@ gulp.task('jsLint',function(){
 
 
 //git integration
-gulp.task('pre-commit', ['jsLint:check']);
+gulp.task('pre-commit', ['jsLint:check'],function(){
+    console.assert("*************** PRE COMMIT *****************");
+});
