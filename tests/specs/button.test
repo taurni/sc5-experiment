@@ -1,0 +1,8 @@
+@objects
+    button              css      .button
+
+= Main section =
+    button:
+        height 40px
+        css padding-top is "9px"
+        css padding-left is "9px"
