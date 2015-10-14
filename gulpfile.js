@@ -33,6 +33,37 @@ var styleguideTmpPath = tmpPath + '/styleguide';
 
 var projectName = 'Telekom Styleguide';
 
+var sc5StyleguideGemini = require('sc5-styleguide-visualtest');
+
+gulp.task("test:visual:config", function() {
+  gulp.src('tests/styleguide', { read: false })
+    .pipe(sc5StyleguideGemini.configure({
+      excludePages: [
+        // '2.2.1', // Back icon is not shown in prod
+        // '6.1-2', // picture is not loaded in prod
+      ]
+    }))
+    .pipe(gulp.dest('./tests/visual/config'))  // Path to configuration and tests
+});
+
+gulp.task("test:visual:update", ["test:visual:config"], function() {
+  gulp.src('tests/styleguide', { read: false })
+    .pipe(sc5StyleguideGemini.gather({
+      configDir: 'tests/visual/config', // Path to configuration and tests
+      gridScreenshotsDir: 'tests/visual/grid-screenshots',
+      rootUrl: 'http://127.0.0.1:3000'
+    }));
+});
+
+gulp.task("visual:test", function(done){
+  gulp.src('tests/styleguide', { read: false })
+    .pipe(sc5StyleguideGemini.test({
+      configDir: 'tests/visual/config',
+      gridScreenshotsDir: 'tests/visual/grid-screenshots',
+      rootUrl: 'http://127.0.0.1:3000'
+    }));
+});
+
 // Dealates all html files in src/**/
 gulp.task('deleate:html',function(){
     return del([htmlWild]);
